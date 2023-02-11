@@ -44,8 +44,8 @@ some paragraph with text
 > block quote blah blah 
 
 
-This is bold ** Friday **
+This is bold **Friday**
 
-Thi is an italicised * word *
+Thi is an italicised *word*
 
 This is a ~~strikethrough~~
