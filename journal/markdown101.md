@@ -1,4 +1,4 @@
-# Ibrahim LEARMS Marckdown
+# Ibrahim LEARNS Marckdown
 
 ## Commit by Ibrahim
 ### Just another sub-heading
