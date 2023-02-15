@@ -24,7 +24,7 @@ Following consulting an expert (Chris), a comprehensive detail of architecture d
 
 **Constraints** = {ETA, Budget allocation, Vendor selection and limitations}.
 
-Our expert recommended **TOGAF** and the **AWS Well-Architected Framework (AWS-WAF)** in building a secure, high-performing, resilient, and efficient infrastructure for CRUDDUR. A quick look at the AWS-WAF pillar pages looked overwhelming but a brief summary by OpenAI's Chatgpt helped out.
+Our expert recommended **TOGAF** and the **AWS Well-Architected Framework (AWS-WAF)** in building a secure, high-performing, resilient, and efficient infrastructure for CRUDDUR. A quick look at the AWS-WAF pillar pages looked overwhelming but a brief summary by OpenAI's Chatgpt helped out. Furthermore, a comprehensive review of the pillar is ongoing.
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/AWS%20WAF_1_chatgpt.png)
 
@@ -44,44 +44,70 @@ Now that we are ready to create our architectural diagram, there are 3 types of 
 I took the following steps in setting up my MFA
 - Click on user and then "Add users"
 
+
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user1.png)
+
 
 - Enter the desired name, enable console access and choose your desired console password option
 
+
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user2.png)
 
+
 - I had already created an admin_Group with AdministrationAccess, so I just added my new user to the admin_Group
+
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user3.png)
 - Reviewed my choices and clicked create
 
-![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user4.png)
 
 - I can now see my newly created user in the User Console
 
-![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user5.png)
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user4.png)
 
-Enabling MFA for my newly created user
----------------------------------------
+
+## Enabling MFA for my newly created user
+
 - Click on the user
+
+
 - Click on security credentials
+
+
 - Under Multifactor authntication (MFA), choose "Assign MFA device"
+
+
 - Give your device a name and choose your slect your an device of your choice, I choose Authentication app (Google Authenticator)
+
+
 - Click show QR code and scan the QR code with your authenticator app 
+
+
 - Enter the first MFA code
+
+
 - Enter the second MFA code
+
+
 - Click Add MFA.
+
+
 You can now see your added MFA device for the user and its identifier.
 
-Using the CLI
-=============
-- Following Andrew Brown's follow-along videon for setting up our Gitpod development space, I set up my environment, downloaded the aws cli, updated the gitpod.yml with aws cli install, and gp env my environmental variables so that I will not have to do an export everytime I log into Gitpod.
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user5.png)
+
+## Using the CLI
+Following Andrew Brown's follow-along video for setting up our Gitpod development space, I set up my environment, downloaded the `aws` cli, updated the `gitpod.yml` with aws cli install, and `gp env` my environmental variables so that I will not have to do an export everytime I log into Gitpod.
 
 - Logged on to my GITPOD from my Github repo
+
+
 - Executed the following command
-- 
-gitpod /workspace $ aws iam creat
-> aws iam create-user --user-name "Ibratest"
+
+
+`gitpod /workspace $ aws iam creat`
+> `aws iam create-user --user-name "Ibratest"
 {
     "User": {
         "Path": "/",
@@ -91,17 +117,23 @@ gitpod /workspace $ aws iam creat
         "CreateDate": "2023-02-15T15:49:12+00:00"
     }
 }
-gitpod /workspace $ 
+ `
 
-- I can now see my newly create user
+- I could see my newly create user
+
+
 - I added the user to the admin group using
 
-> aws iam add-user-to-group --group-name admin_Group --user-name Ibratest
+
+> `aws iam add-user-to-group --group-name admin_Group --user-name Ibratest`
+
+
 
 - Verified the user group using the following command 
 
-gitpod /workspace $ aws iam
-> aws iam list-groups-for-user --user-name Ibratest
+
+
+> `aws iam list-groups-for-user --user-name Ibratest
 {
     "Groups": [
         {
@@ -113,30 +145,52 @@ gitpod /workspace $ aws iam
         }
     ]
 }
+`
 
+## Creating Budget and Billing Alarms 
 
+### On the Console (Following Chirags video)
 
-CREATING BUDGET AND BILLING ALARMS 
-==================================
-CONSOLE === Following Chirags video
--------
 - Logged on as root using my MFA
+
+
 - Typed AWS Budget in the search bar
+
+
 - Clicked Create Budget
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget1.png)
+
+
 - Choose the budget type (use a template), and specified the template (Zerro spend Budget)
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget2.png)
+
+
 - Named the budget and indicated the recipient when the set budget has exceeded its threshold
+
+
 - Clicked on Create Budget. 
 
-CLI === Following Andrew's Video
-===
-- Using the aws CLI Command Reference Documentation
-aws budgets create-budget \
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget3.png)
+
+
+### Using the CLI in GITPOD (Following Andrew's Video)
+
+Using the aws CLI Command Reference Documentation
+
+> `aws budgets create-budget \
     --account-id $ACCOUNT_ID \
     --budget file://aws/json/budget.json \
-    --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json
+    --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json`
 
-Since I will be billed after the 2nd Budget, I deleted the newly created Budget.
+I can now see bothe budgets created but since I will be billed after the 2nd Budget, I will the newly created Budget.
 
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget4.png)
 
 
 
