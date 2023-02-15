@@ -195,7 +195,7 @@ Using the aws CLI Command Reference Documentation
     --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json`
 
 
-I can now see both budgets created but since I will be billed after the 2nd Budget, I will the newly created Budget.
+I can now see both budgets created but since I will be billed after the 2nd Budget, I will the newly created budget.
 
 
 
