@@ -42,7 +42,9 @@ Now that we are ready to create our architectural diagram, there are 3 types of 
 
 # Setting MFA for Root and IAM Accounts, Creating an IAM User/ Role
 I took the following steps in setting up my MFA
-- Click on user and then "Add users"
+
+
+- Click on "Users" and then "Add users"
 
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user1.png)
@@ -147,6 +149,8 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
 }
 `
 
+
+
 ## Creating Budget and Billing Alarms 
 
 ### On the Console (Following Chirags video)
@@ -175,6 +179,9 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
 - Clicked on Create Budget. 
 
 
+- Further, I also created an alert as indicated below:
+
+
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget3.png)
 
 
@@ -187,7 +194,10 @@ Using the aws CLI Command Reference Documentation
     --budget file://aws/json/budget.json \
     --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json`
 
-I can now see bothe budgets created but since I will be billed after the 2nd Budget, I will the newly created Budget.
+
+I can now see both budgets created but since I will be billed after the 2nd Budget, I will the newly created Budget.
+
+
 
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget4.png)
