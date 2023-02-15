@@ -13,35 +13,50 @@ To foster resiliency, CRUDDUR will be architected as a microservice instead of a
 CRUDDUR would be developed using Javascript with React in its frontend and Python with Flask in its backend using API only. 
 Investors are only concerned about budget (low cost as possible), on-time delivery (~14 weeks) and a platform that makes for a viable competitor for twitter.
 
-CRUDDUR'S ARCHIECTURAL DIAGRAM
-===============================
+## CRUDDUR'S ARCHIECTURAL DIAGRAM
 Following consulting an expert (Chris), a comprehensive detail of architecture diagrams taking RRACs (Requirements, Risks, Assumption and Constraints) into account quickly helped us in identiying some RRACs for CRUDDUR.
 
-Requirements = {ephemeral, looks like twitter, cost and time minded, verifiable, monitorable, traceable, feasible}
-Risks = {Point of Failure, User adoption and engagement, unforseen circumstances}
-Assumptions = {Available skills for the project, budget might be approved, engaged stakeholders throughout realization process}
-Constraints = {ETA, Budget allocation, Vendor selection and limitations}.
+**Requirements** = {ephemeral, looks like twitter, cost and time minded, verifiable, monitorable, traceable, feasible}
 
-Our expert recommended TOGAF and the AWS Well-Architected Framework (AWS-WAF) in building a secure, high-performing, resilient, and efficient infrastructure for CRUDDUR. A quick look at the AWS-WAF pillar pages looked overwhelming but a brief summary by OpenAI's Chatgpt helped out (-reference image).
+**Risks** = {Point of Failure, User adoption and engagement, unforseen circumstances}
+
+**Assumptions** = {Available skills for the project, budget might be approved, engaged stakeholders throughout realization process}
+
+**Constraints** = {ETA, Budget allocation, Vendor selection and limitations}.
+
+Our expert recommended **TOGAF** and the **AWS Well-Architected Framework (AWS-WAF)** in building a secure, high-performing, resilient, and efficient infrastructure for CRUDDUR. A quick look at the AWS-WAF pillar pages looked overwhelming but a brief summary by OpenAI's Chatgpt helped out (-reference image).
 
 
 Now that we are ready to create our architectural diagram, there are 3 types of designs we will be leverage:
-	- Conceptual design - Napkin diagram
-	- Logical design - an illustration of how the system will be implemented without service names, SKUs or sizes.
-	- Physical design - this illuatrates our infrastructure with details about each service, compute instances, IP addresses, connections, dependencies, etc.
+- **Conceptual design** - Napkin diagram.
+
+![ibrahim's napkin design](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/20230214_174643.jpg)
+
+- **Logical design** - an illustration of how the system will be implemented without service names, SKUs or sizes.
+- **Physical design** - this illuatrates our infrastructure with details about each service, compute instances, IP addresses, connections, dependencies, etc.
 
 
 
-SETTING MFA for Root and IAM Accounts, Creating an IAM User/ Role
-=========================================================
+# Setting MFA for Root and IAM Accounts, Creating an IAM User/ Role
 I took the following steps in setting up my MFA
-	- Log in as  Root account on the AWS Console
-	- In the search bar, type "IAM"  (I had already set my MFA a while back so I went ahead to create a new account "Ibracadabr". 
-	- Click on user and then "Add users"
-	- Enter the desired name, enable console access and choose your desired console password option
-	- I had already created an admin_Group with AdministrationAccess, so I just added my new user to the admin_Group
-	- Reviewed my choices and clicked create
-	- I can now see my newly created user in the User Console
+- Click on user and then "Add users"
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user1.png)
+
+- Enter the desired name, enable console access and choose your desired console password option
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user2.png)
+
+- I had already created an admin_Group with AdministrationAccess, so I just added my new user to the admin_Group
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user3.png)
+- Reviewed my choices and clicked create
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user4.png)
+
+- I can now see my newly created user in the User Console
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user5.png)
 
 Enabling MFA for my newly created user
 ---------------------------------------
