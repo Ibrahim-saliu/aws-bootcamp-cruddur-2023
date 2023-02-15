@@ -13,7 +13,7 @@ To foster resiliency, CRUDDUR will be architected as a microservice instead of a
 CRUDDUR would be developed using Javascript with React in its frontend and Python with Flask in its backend using API only. 
 Investors are only concerned about budget (low cost as possible), on-time delivery (~14 weeks) and a platform that makes for a viable competitor for twitter.
 
-## CRUDDUR'S ARCHIECTURAL DIAGRAM
+### CRUDDUR'S ARCHIECTURAL DIAGRAM
 Following consulting an expert (Chris), a comprehensive detail of architecture diagrams taking RRACs (Requirements, Risks, Assumption and Constraints) into account quickly helped us in identiying some RRACs for CRUDDUR.
 
 **Requirements** = {ephemeral, looks like twitter, cost and time minded, verifiable, monitorable, traceable, feasible}
@@ -40,7 +40,7 @@ Now that we are ready to create our architectural diagram, there are 3 types of 
 
 
 
-# Setting MFA for Root and IAM Accounts, Creating an IAM User/ Role
+### Setting MFA for Root and IAM Accounts, Creating an IAM User/ Role
 I took the following steps in setting up my MFA
 
 
@@ -68,7 +68,7 @@ I took the following steps in setting up my MFA
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user4.png)
 
 
-## Enabling MFA for my newly created user
+### Enabling MFA for my newly created user
 
 - Click on the user
 
@@ -99,7 +99,7 @@ You can now see your added MFA device for the user and its identifier.
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user5.png)
 
-## Using the CLI
+### Using the CLI
 Following Andrew Brown's follow-along video for setting up our Gitpod development space, I set up my environment, downloaded the `aws` cli, updated the `gitpod.yml` with aws cli install, and `gp env` my environmental variables so that I will not have to do an export everytime I log into Gitpod.
 
 - Logged on to my GITPOD from my Github repo
@@ -151,9 +151,9 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
 
 
 
-## Creating Budget and Billing Alarms 
+### Creating Budget and Billing Alarms 
 
-### On the Console (Following Chirags video)
+#### On the Console (Following Chirags video)
 
 - Logged on as root using my MFA
 
@@ -185,7 +185,7 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget3.png)
 
 
-### Using the CLI in GITPOD (Following Andrew's Video)
+#### Using the CLI in GITPOD (Following Andrew's Video)
 
 Using the aws CLI Command Reference Documentation
 
