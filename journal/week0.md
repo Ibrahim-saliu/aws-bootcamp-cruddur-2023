@@ -150,7 +150,7 @@ The AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY were retrieved when I generated 
 
 `gitpod /workspace $ aws iam create`
 
-> `aws iam create-user --user-name "Ibratest"
+> `aws iam create-user --user-name "Ibratest"`
     
     "User": {
         "Path": "/",
@@ -176,7 +176,7 @@ The AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY were retrieved when I generated 
 
 
 
-> `aws iam list-groups-for-user --user-name Ibratest
+> `aws iam list-groups-for-user --user-name Ibratest`
     
     "Groups": [
     
@@ -232,11 +232,11 @@ The AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY were retrieved when I generated 
 
 Using the aws CLI Command Reference Documentation
 
-> `aws budgets create-budget \
+> `aws budgets create-budget \`
 
     --account-id $ACCOUNT_ID \
     --budget file://aws/json/budget.json \
-    --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json`
+    --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json
 
 
 I can now see both budgets created but since I will be billed after the 2nd Budget, I will the newly created budget.
@@ -249,15 +249,15 @@ I can now see both budgets created but since I will be billed after the 2nd Budg
 #### Billing Alarm
 - To create a Billing Alarm, I had to create an SNS Topic using the following command:
 
-         `aws sns create-topic --name BootCamp_Billing_Alarm
-        `"TopicArn": "arn:aws:sns:us-east-1:123456789012:BootCamp_Billing_Alarm"`
+            aws sns create-topic --name BootCamp_Billing_Alarm
+           "TopicArn": "arn:aws:sns:us-east-1:123456789012:BootCamp_Billing_Alarm"
 
 - The execution of the command returned a Topic ARN which will be used to create the SNS topic
 
-        > `aws sns subscribe \`
-        `--topic-arn arn:aws:sns:us-east-1:123456789012:BootCamp_Billing_Alarm \`
-        `--protocol email \`
-        ` --notification-endpoint ibrahimsaliu297@gmail.com`
+        > aws sns subscribe \
+            --topic-arn arn:aws:sns:us-east-1:123456789012:BootCamp_Billing_Alarm \
+            --protocol email \
+            --notification-endpoint ibrahimsaliu297@gmail.com
 
 A confirmation was sent to my email as illustrated in the output o the CLI nd in my the console
 
