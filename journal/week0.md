@@ -66,6 +66,8 @@ I took the following steps in setting up my MFA
 
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user3.png)
+
+
 - Reviewed my choices and clicked create
 
 
