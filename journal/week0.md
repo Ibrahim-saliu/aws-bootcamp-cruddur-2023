@@ -24,8 +24,11 @@ Following consulting an expert (Chris), a comprehensive detail of architecture d
 
 **Constraints** = {ETA, Budget allocation, Vendor selection and limitations}.
 
-Our expert recommended **TOGAF** and the **AWS Well-Architected Framework (AWS-WAF)** in building a secure, high-performing, resilient, and efficient infrastructure for CRUDDUR. A quick look at the AWS-WAF pillar pages looked overwhelming but a brief summary by OpenAI's Chatgpt helped out (-reference image).
+Our expert recommended **TOGAF** and the **AWS Well-Architected Framework (AWS-WAF)** in building a secure, high-performing, resilient, and efficient infrastructure for CRUDDUR. A quick look at the AWS-WAF pillar pages looked overwhelming but a brief summary by OpenAI's Chatgpt helped out.
 
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/AWS%20WAF_1_chatgpt.png)
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/AWS%20WAF_2_chatgpt.png)
 
 Now that we are ready to create our architectural diagram, there are 3 types of designs we will be leverage:
 - **Conceptual design** - Napkin diagram.
