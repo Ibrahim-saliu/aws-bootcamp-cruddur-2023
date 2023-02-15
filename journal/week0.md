@@ -36,6 +36,12 @@ Now that we are ready to create our architectural diagram, there are 3 types of 
 ![ibrahim's napkin design](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/20230214_174643.jpg)
 
 - **Logical design** - an illustration of how the system will be implemented without service names, SKUs or sizes.
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/AWS_Cruddur_Week0_Arch_Logical_Diagram%20(1).png)
+
+
+
 - **Physical design** - this illuatrates our infrastructure with details about each service, compute instances, IP addresses, connections, dependencies, etc.
 
 
