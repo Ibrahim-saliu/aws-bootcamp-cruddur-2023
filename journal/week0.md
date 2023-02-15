@@ -109,21 +109,31 @@ You can now see your added MFA device for the user and its identifier.
 
 Following Andrew Brown's follow-along video for setting up our Gitpod development space, I set up my environment, downloaded the `aws` cli, updated the `gitpod.yml` with aws cli install, and `gp env` my environmental variables so that I will not have to do an export everytime I log into Gitpod.
 
-- Logged on to my GITPOD from my Github repo and saved my environmental variables using teh commane below:
+- Logged on to my GITPOD from my Github repo, installed aws cli using the command below:
+
+> `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
+
+> `unzip awscliv2.zip`
+
+> `sudo ./aws/install`
+
+
+- Then I saved my environmental variables in gitpod for reusability
+
 
 > `export AWS_ACCESS_KEY_ID=""`
 
-> `export AWS_SECRET_ACCESS_KEY=""'
+> `export AWS_SECRET_ACCESS_KEY=""`
 
-> `export AWS_DEFAULT_REGION=us-east-1'
+> `export AWS_DEFAULT_REGION=us-east-1`
 
 The AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY were retrieved when I generated the credentials for my IAM user
 
 > `gp env export AWS_ACCESS_KEY_ID=""`
 
-> `gp env export AWS_SECRET_ACCESS_KEY=""'
+> `gp env export AWS_SECRET_ACCESS_KEY=""`
 
-> `gp env export AWS_DEFAULT_REGION=us-east-1'
+> `gp env export AWS_DEFAULT_REGION=us-east-1`
 
 
 - I used the below to get my Account ID and saved it as a variable in gitpod.
@@ -141,8 +151,6 @@ The AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY were retrieved when I generated 
 `gitpod /workspace $ aws iam create`
 
 > `aws iam create-user --user-name "Ibratest"
-    
-    {
     
     "User": {
         "Path": "/",
@@ -169,8 +177,6 @@ The AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY were retrieved when I generated 
 
 
 > `aws iam list-groups-for-user --user-name Ibratest
-
-{
     
     "Groups": [
     
@@ -241,6 +247,83 @@ I can now see both budgets created but since I will be billed after the 2nd Budg
 
 
 #### Billing Alarm
+- To create a Billing Alarm, I had to create an SNS Topic using the following command:
+
+         `aws sns create-topic --name BootCamp_Billing_Alarm
+        `"TopicArn": "arn:aws:sns:us-east-1:123456789012:BootCamp_Billing_Alarm"`
+
+- The execution of the command returned a Topic ARN which will be used to create the SNS topic
+
+        > `aws sns subscribe \`
+        `--topic-arn arn:aws:sns:us-east-1:123456789012:BootCamp_Billing_Alarm \`
+        `--protocol email \`
+        ` --notification-endpoint ibrahimsaliu297@gmail.com`
+
+A confirmation was sent to my email as illustrated in the output o the CLI nd in my the console
+
+        {
+            "SubscriptionArn": "pending confirmation"
+        }  
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/SNS1.png)
+
+
+After confirmation, I can now see that my Subscription is verified on the console or via the cli using the command below: 
+        > aws sns list-subscriptions
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/SNS2.png)
+
+
+- I can now use my SNS Topic ARN in my Budegts 
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/SNS3.png)
+
+
+#### To create an Metric Alarm in Cloud Watch via the CLI
+
+- Created a json file "my_alarm.json" in my local repository based on the aws knowledge center documentation.
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Billing_alarm_1.png)
+
+
+On the Console:
+- Type Cloudwatch in the search bar
+
+- Choose Alarms and Create
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Billing_alarm_2.png)
+
+
+- Choose the desired metric
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Billing_alarm_3.png)
+
+- Set your desired conditions 
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Billing_alarm_5.png)
+
+
+
+- Configure your actions, I linked mine to an existing SNS_Topic I created earlier.
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Billing_alarm_6.png)
+
+
+- Give your Alarm a name and description 
+
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Billing_alarm_7.png)
+
+
+- Review and Create Alarm
 
 
 
