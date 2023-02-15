@@ -2,7 +2,7 @@
 # Week 0 — Billing and Architecture
 With an awesome kick-off of the FREE AWS CLOUD PROJECT BOOTCAMP oganized by Andrew Brown, here is a detailed summary of my required activities in WEEK 0
 
-## Watched Week 0 - Live Streamed Video 
+## Week 0 - Live Streamed Video 
 ### CRUDDUR app purpose summary = Margaret 
 
 Following my interview with Tony and successful hire as a cloud engineer, I finally got to meet the CRUDDUR team, investors and the fractional CTO to talk about the proposed project. The idea of an ephemeral microblogging social media platform with expired posts that foster trust and a safe place for authenticated and validated users to share and upload content without long-term tracking sounds cool. The target group while not defined with certainity yet lies between students or young professsionals. However, one certainty is that CRUDDUR is for anyone who deos not want to maintain a permanent presence online. 
@@ -30,7 +30,7 @@ Our expert recommended **TOGAF** and the **AWS Well-Architected Framework (AWS-W
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/AWS%20WAF_2_chatgpt.png)
 
-Now that we are ready to create our architectural diagram, there are 3 types of designs we will be leverage:
+Now that we are ready to create our architectural diagram, we will leverage 3 types of designs:
 - **Conceptual design** - Napkin diagram.
 
 ![ibrahim's napkin design](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/20230214_174643.jpg)
@@ -46,7 +46,7 @@ Now that we are ready to create our architectural diagram, there are 3 types of 
 
 
 
-### Setting MFA for Root and IAM Accounts, Creating an IAM User/ Role
+### Setting MFA for Root and IAM Accounts, Creating an IAM User/ Role 
 I took the following steps in setting up my MFA
 
 
@@ -106,26 +106,53 @@ You can now see your added MFA device for the user and its identifier.
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/creating%20user5.png)
 
 ### Using the CLI
+
 Following Andrew Brown's follow-along video for setting up our Gitpod development space, I set up my environment, downloaded the `aws` cli, updated the `gitpod.yml` with aws cli install, and `gp env` my environmental variables so that I will not have to do an export everytime I log into Gitpod.
 
-- Logged on to my GITPOD from my Github repo
+- Logged on to my GITPOD from my Github repo and saved my environmental variables using teh commane below:
+
+> `export AWS_ACCESS_KEY_ID=""`
+
+> `export AWS_SECRET_ACCESS_KEY=""'
+
+> `export AWS_DEFAULT_REGION=us-east-1'
+
+The AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY were retrieved when I generated the credentials for my IAM user
+
+> `gp env export AWS_ACCESS_KEY_ID=""`
+
+> `gp env export AWS_SECRET_ACCESS_KEY=""'
+
+> `gp env export AWS_DEFAULT_REGION=us-east-1'
+
+
+- I used the below to get my Account ID and saved it as a variable in gitpod.
+
+> `aws sts get-caller-identity --query Account --output text`
+
+> `export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)`
+
+> `gp env ACCOUNT_ID="123456789012"` 
 
 
 - Executed the following command
 
 
-`gitpod /workspace $ aws iam creat`
+`gitpod /workspace $ aws iam create`
+
 > `aws iam create-user --user-name "Ibratest"
-{
+    
+    {
+    
     "User": {
         "Path": "/",
         "UserName": "Ibratest",
         "UserId": "XXXXXXXXXXXXXXXXXX",
-        "Arn": "arn:aws:iam::123456789012:user/Ibratest",
+        "Arn": "arn:aws:iam::123456789012:user/Ibratest", 
         "CreateDate": "2023-02-15T15:49:12+00:00"
-    }
-}
- `
+        
+    }`
+    
 
 - I could see my newly create user
 
@@ -142,8 +169,11 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
 
 
 > `aws iam list-groups-for-user --user-name Ibratest
+
 {
+    
     "Groups": [
+    
         {
             "Path": "/",
             "GroupName": "admin_Group",
@@ -152,8 +182,7 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
             "CreateDate": "2023-01-29T19:35:46+00:00"
         }
     ]
-}
-`
+
 
 
 
@@ -193,9 +222,12 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
 
 #### Using the CLI in GITPOD (Following Andrew's Video)
 
+
+
 Using the aws CLI Command Reference Documentation
 
 > `aws budgets create-budget \
+
     --account-id $ACCOUNT_ID \
     --budget file://aws/json/budget.json \
     --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json`
@@ -204,11 +236,11 @@ Using the aws CLI Command Reference Documentation
 I can now see both budgets created but since I will be billed after the 2nd Budget, I will the newly created budget.
 
 
-
-
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/budget4.png)
 
 
+
+#### Billing Alarm
 
 
 
