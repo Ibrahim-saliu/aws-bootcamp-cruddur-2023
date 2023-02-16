@@ -40,6 +40,7 @@ Now that we are ready to create our architectural diagram, we will leverage 3 ty
 
 ![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/AWS_Cruddur_Week0_Arch_Logical_Diagram%20(1).png)
 
+[Lucid Chart share link](https://lucid.app/lucidchart/7f7c271e-68ec-449a-8bc3-a1ad8f3f536b/edit?viewport_loc=-281%2C69%2C2512%2C1242%2C0_0&invitationId=inv_217fa310-20c2-4a00-83e8-ad8d0364c705)
 
 
 - **Physical design** - this illuatrates our infrastructure with details about each service, compute instances, IP addresses, connections, dependencies, etc.
@@ -109,11 +110,11 @@ You can now see your added MFA device for the user and its identifier.
 
 ### Using the CLI
 
-Following Andrew Brown's follow-along video for setting up our Gitpod development space, I set up my environment, downloaded the `aws` cli, updated the `gitpod.yml` with aws cli install, and `gp env` my environmental variables so that I will not have to do an export everytime I log into Gitpod.
+Following Andrew Brown's follow-along video for setting up our Gitpod development space, I used the Cloud shell, I set up my environment, downloaded the `aws` cli, updated the `gitpod.yml` with aws cli install, and `gp env` my environmental variables so that I will not have to do an export everytime I log into Gitpod.
 
 - Logged on to my GITPOD from my Github repo, installed aws cli using the command below:
 
-> `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
+`> `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
 
 > `unzip awscliv2.zip`
 
