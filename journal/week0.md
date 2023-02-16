@@ -337,5 +337,19 @@ On the Console:
 
 To avoid the complete use of my root user, I delegated access to my IAM users created to be able to view the billing console.
 I followed the instructions indicated on the [https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_billing.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_billing.html) to complete the action.
+I created a policy called "BillingViewAccess" and attached it to my users. Following that my user could access the Billing console.
 
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Billing%20Policy.png)
+
+
+
+
+## Adrian Cantrill Cat Pipeline - Stage 4
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Adrian_Cantrill_CatPipeline_Stage4.png)
+
+
+
+[https://lucid.app/lucidchart/8bca613f-adce-4fa7-b225-d5b812665c63/edit?viewport_loc=-740%2C-60%2C3328%2C1532%2C0_0&invitationId=inv_32a5ef6d-facd-4b57-815b-a05384c927f5](https://lucid.app/lucidchart/8bca613f-adce-4fa7-b225-d5b812665c63/edit?viewport_loc=-740%2C-60%2C3328%2C1532%2C0_0&invitationId=inv_32a5ef6d-facd-4b57-815b-a05384c927f5)
 
