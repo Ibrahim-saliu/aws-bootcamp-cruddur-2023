@@ -114,7 +114,7 @@ Following Andrew Brown's follow-along video for setting up our Gitpod developmen
 
 - Logged on to my GITPOD from my Github repo, installed aws cli using the command below:
 
-`> `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
+> `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
 
 > `unzip awscliv2.zip`
 
@@ -329,5 +329,13 @@ On the Console:
 - Review and Create Alarm
 
 
+
+
+# HomeWork Challenges
+
+## IAM tutorial: Delegate access to the billing console 
+
+To avoid the complete use of my root user, I delegated access to my IAM users created to be able to view the billing console.
+I followed the instructions indicated on the [https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_billing.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_billing.html) to complete the action.
 
 
