@@ -21,21 +21,21 @@ why is container important / whay are we containerizing our applicatons
 ## Insructions
 - Created a Dockerfile in the backend directory with the content below
 
+```yml
+        FROM python:3.10-slim-buster
 
-    FROM python:3.10-slim-buster
+        WORKDIR /backend-flask
 
-    WORKDIR /backend-flask
+        COPY requirements.txt requirements.txt
+        RUN pip3 install -r requirements.txt
 
-    COPY requirements.txt requirements.txt
-    RUN pip3 install -r requirements.txt
+        COPY . .
 
-    COPY . .
+        ENV FLASK_ENV=development
 
-    ENV FLASK_ENV=development
-
-    EXPOSE ${PORT}
-    CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
-    
+        EXPOSE ${PORT}
+        CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
+```   
     
     
 ** Note ** : In the doker hub registry, there is a scratch images which can be used to build an images from scratch. an example is the Debian image built from scratch. This is referred to as "no- op". 
@@ -108,6 +108,7 @@ Now, that we are sure that our `env_vars` are missing, we can set it using
 
 - create a `Dockerfile` using the contents below:
 
+```yml
         FROM node:16.18
 
         ENV PORT=3000
@@ -117,10 +118,11 @@ Now, that we are sure that our `env_vars` are missing, we can set it using
         RUN npm install
         EXPOSE ${PORT}
         CMD ["npm", "start"]
-        
+```
         
 - create a `compose.yml` file as shown below to run multiple containers at the same time 
 
+```yml
   
         version: "3.8"
         services:
@@ -148,7 +150,8 @@ Now, that we are sure that our `env_vars` are missing, we can set it using
           internal-network:
             driver: bridge
             name: cruddur
-   
+```
+
 - execute `docker compose up` or use the GUI in VS code to execute `docker compose up`
 
 - notice the port 3000 is now visible in your port section. also, youb can see the containers also in the containers section of the vscode. 
@@ -193,27 +196,179 @@ Now, that we are sure that our `env_vars` are missing, we can set it using
             snyk container test image_name
             
     
+    
+### Creating a new notification feature (Backend and Frontend)
+#### Uisng the OPENAPI extension on gitpod
+
+- On launching my gitpod workspace and having all extensions loaded on the side bar, I was able to click on the OPENAPI exetension and already see the APIs without any issues once I had already open the `openapi-3.0.yml` file
+        
+- OPENAPI : It is standard for deifining openapi
+
+- Following Andrew Brown's video, I wa able to set up a new readme.io free account and created a project named `awsbootcamp`, imported the API and created a documentation page. I executed the command below
+
+```sh
+
+            npm install rdme@latest -gnpm install rdme@latest -g
+            rdme openapi --version=v1.0\
+            --key=rdme_xn8s9hc7775b4d5aafbe22a640315e9768fe566dd5388bf914e89d8045bc3a5983dc9c
+        
+            # to update my OPENAPI definition, I will execute 
+            rdme openapi backend-flask/openapi-3.0.yml --key=<key> --id=63f522f08c61eb0072a0f665
+```  
+
+### MAIN Action
+- Bring up the application using `docker compose up`
+- make sure the ports are visible and unlocked(made public)
+- Observe the port 3000 with the state "not served" - this is because the `npm install` required for the front end was not done. You can chec this by checking the log files of the container which states that the react-scripts were not found
+
+
+![]()
+
+1[]()
+
+
+- run a `docker compose down` to bring down and remove the running containers
+- move into your frontend-react-js directory and execute `npm install`
+- run a `docker compose up`
+- make sure the ports are visible and unlocked(made public)
+- you can now click on the browser link associated with port 3000 and see the CRUDDUR homepage
+
+- sign up using your desired name, email and password. 
+- enter the email and an hardcoded `1234` OTP. 
+- you can now see your home page on the CRUDDUR app.
+
+![]()
+
+
+
+##### we will now add an emdpoint to our app's backend
+- open the `openapi-3.0.yml` go to openapi 
+- Check out the openAPI notification documentation page
+
+- Use the OPENAPI extension to create new link called `/api/activities/notifications`. This will creata new section in the `openapi-30.yml` file as shown
+
+```yml      
+        /api/activities/notifications: 
+          get:
+            description: 'Return a feed of activity for all that I follow'
+            tags:
+              - activities
+            parameters: []
+            responses:
+              '200':
+                description: OK
+                content:
+                  application/json:
+                    schema:
+                      type: array
+                      items: 
+                      $ref: '#/components/schemas/Activity'
+```
+
+
+
+- in the backend-flask dir, open the `app.py` and add the following
+
+            @app.route("/api/activities/notifications", methods=['GET'])
+            def data_home():
+                data = NotificationsActivities.run()
+                return data, 200 
+
+- create a new file in the dir called `notification_activities.py`
+- populate the file with following :
+
+```python
+        `from datetime import datetime, timedelta, timezone
+        class NotificationsActivities:
+            def run():
+                now = datetime.now(timezone.utc).astimezone()
+                results = [{
+                  'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
+                  'handle':  'Ibrahim Saliu',
+                  'message': 'I am loving the aws bootcamp!',
+                  'created_at': (now - timedelta(days=2)).isoformat(),
+                  'expires_at': (now + timedelta(days=5)).isoformat(),
+                  'likes_count': 5,
+                  'replies_count': 1,
+                  'reposts_count': 0,
+                  'replies': [{
+                    'uuid': '26e12864-1c26-5c3a-9658-97a10f8fea67',
+                    'reply_to_activity_uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
+                    'handle':  'Worf',
+                    'message': 'This post has no honor!',
+                    'likes_count': 0,
+                    'replies_count': 0,
+                    'reposts_count': 0,
+                    'created_at': (now - timedelta(days=2)).isoformat()
+                  }],
+                },
+                ]
+                return results`
+```
+                
+- update the improt section of your app.py to include `notifications_activities`
+            
+            from services.notifications_activities import *
+
+- Spin up the applications and click the browser link. You will observer that the notification endpoint is working
+
+![]()
+
+
+
+##### we will now add an emdpoint to our app's backend
+
+- open up th `APP.js` file and update it with 
+            
+            import NotificationActivityPage from './pages/NotificationActivityPage';
             
             
-    
-
-        
-        
-        
-        
+            {
+            path: "/notifications",
+            element: <NotificationActivityPage />
+            },
 
 
-    
-    
-        
-        
-        
+- create 2 new files `NotficationActivityPage.js` and `NotificationActivityPage.css`
+
+- Copy the content of the `HomeFeedPage.js` and update it to fit the neotification requirements
+
+- Go to the `DesktopNavigation.js` file and check if it contains entry for the notification.
+
+- Reload your (frontend) homepage in the browser and you can see activity in the Notification bar.
+
+
+![]()
+
+
+
+## Dynamo DB Postgres vs Docker
+
+- DynamoDB local is an emulation of running dynamoDB on your machine. You can interact with it and its alot faster.
+
+    From [https://github.com/100DaysOfCloud/challenge-dynamodb-local](https://github.com/100DaysOfCloud/challenge-dynamodb-local)
+
+```sh
+        aws dynamodb create-table     --endpoint-url http://localhost:8000     --table-name Music     --attribute-definitions         AttributeName=Artist,AttributeType=S         AttributeName=SongTitle,AttributeType=S     --key-schema AttributeName=Artist,KeyType=HASH AttributeName=SongTitle,KeyType=RANGE     --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1     --table-class STANDARD
+        3  aws dynamodb put-item     --endpoint-url http://localhost:8000     --table-name Music     --item         '{"Artist": {"S": "No One You Know"}, "SongTitle": {"S": "Call Me Today"}, "AlbumTitle": {"S": "Somewhat Famous"}}'     --return-consumed-capacity TOTAL  
+        4  aws dynamodb list-tables --endpoint-url http://localhost:8000
+        5  aws dynamodb scan --table-name Music --query "Items" --endpoint-url http://localhost:8000
+```
 
 
 
 
-        
 
+
+#### Best Practices when asking for help
+- Add enough and clear details
+- show proof of effort in understanding and tackling said issue
+- provide affected code (back tick your code - use mark up language principles)
+- use [gist.github.com](gist.github.com) for large blocks of codes
+- You can also use your repo
+- ALways consider your team and collaboration potentials and efforts
+- You can use the inspect function on your browser -- very helpful
+- Use breakpoints in your code
 
 
 
