@@ -590,7 +590,7 @@ healthcheck:
 
 - I did a compose up and saw my containers running but the backend-flask was unhelathy
 
-![]()
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/week1/unhealthybackend.png)
 
 - I ran a `docker inspect` on the container and saw the following in the output:
 
@@ -623,7 +623,9 @@ healthcheck:
 
 -So I added `RUN apt-get update && apt-get install -y curl` to my backend-flask Dockerfile.
 
-- Did a new docker compose
+- Did a new docker compose up and voila my containers are healthy
+
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/week1/healthycontainers.png)
 
 
 
