@@ -12,6 +12,7 @@ COPY requirements.txt requirements.txt
 # Runs inside the Container
 # Install the python libraries used for the app
 RUN pip3 install -r requirements.txt
+RUN apt-get update && apt-get install -y curl
 
 
 # Outside Container ---> Inside Container
