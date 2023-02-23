@@ -563,10 +563,11 @@ alpine                latest    b2aa39c304c2   12 days ago    7.05MB
 
 - I ran the container and was able to load the CRUDDUR homepage.
 
+![](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/week1/running%20Cruddur%20in%20my%20EC2%20instance.png)
 - Then I stopped and terminated my provisioned EC2 instance.
 
 
-
+#### AN OBSERVATION WAS THAT I COULD NOT SEE THE CRUDS ON THE CRUDDUR HOMEPAGE WHEN I RAN IT ON MY LOCAL HOST ON ON THE EC2 INSTANCE even though I USED THE SAME IMAGE.
 
 
 
