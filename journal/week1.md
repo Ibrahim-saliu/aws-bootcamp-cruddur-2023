@@ -569,7 +569,11 @@ alpine                latest    b2aa39c304c2   12 days ago    7.05MB
 - Then I stopped and terminated my provisioned EC2 instance.
 
 
-#### AN OBSERVATION WAS THAT I COULD NOT SEE THE CRUDS ON THE CRUDDUR HOMEPAGE WHEN I RAN IT ON MY LOCAL HOST ON ON THE EC2 INSTANCE even though I USED THE SAME IMAGE.
+## AN OBSERVATION WAS THAT I COULD NOT SEE THE CRUDS ON THE CRUDDUR HOMEPAGE WHEN I RAN IT ON MY LOCAL HOST ON ON THE EC2 INSTANCE even though I USED THE SAME IMAGE.
+
+
+
+#### Implement a healthcheck in the V3 Docker compose file
 
 
 
