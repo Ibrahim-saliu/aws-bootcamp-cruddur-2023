@@ -417,6 +417,88 @@ Now, that we are sure that our `env_vars` are missing, we can set it using
 ![]()
 
 
+#### Launch an EC2 instance that has docker installed, and pull a container to demonstrate you can run your own docker processes
+
+- I launched a new EC2 instance called aws_bootcamp (Linux t2.micro). I created a key pair whic which I was able to connect using the OpenSSH client on my local machine
+
+```sh
+
+    C:\Users\Ibrahim S Saliu\Downloads>ssh -i "aws_bootcamp_hostkey.pem" ec2-user@ec2-100-25-118-118.compute-1.amazonaws.com
+The authenticity of host 'ec2-100-25-118-118.compute-1.amazonaws.com (100.25.118.118)' can't be established.
+ED25519 key fingerprint is SHA256:BhW/9ll4HdIL2ULngSgkJhk8fnFPUVrIr4BT0nxOza4.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'ec2-100-25-118-118.compute-1.amazonaws.com' (ED25519) to the list of known hosts.
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+No packages needed for security; 5 packages available
+Run "sudo yum update" to apply all updates.
+[root@ip-100-11-xx-000 ~]$
+```
+
+- I ran docker command but it was not installed yet, so I installed docker on it using the Amazon Linux 2 using the information found here: [https://www.cyberciti.biz/faq/how-to-install-docker-on-amazon-linux-2/](https://www.cyberciti.biz/faq/how-to-install-docker-on-amazon-linux-2/).
+
+```sh
+    sudo yum update
+    sudo yum search docker
+    sudo yum info docker
+    sudo yum install docker
+```
+
+- Now, I have docker running on my EC2 machine
+
+```sh
+[root@ip-100-11-xx-000 ~]$ docker
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default "/home/root/.docker")
+  -c, --context string     Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker
+                           context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  
+```
+
+- Then I pulled the frontend-react-js image I had pushed from my gitpod into my Docker Hub repository
+
+```sh
+[root@ip-100-11-xx-000 ~]$ sudo docker pull oriade/aws_bootcamp
+Using default tag: latest
+latest: Pulling from oriade/aws_bootcamp
+620af4e91dbf: Pull complete
+fae29f309a72: Pull complete
+28fca74d99b6: Pull complete
+0b5db87f5b42: Pull complete
+fa488706ea13: Pull complete
+0380b9b3282f: Pull complete
+383dfecd3687: Pull complete
+ca59981dc274: Pull complete
+4fa5c4b55a85: Pull complete
+74c331b0bc07: Pull complete
+3119e7eb8dd7: Pull complete
+Digest: sha256:07bf67cf31eb515036dc49f688aac42773f81322e5f3ba7787f8fb8477f3b54c
+Status: Downloaded newer image for oriade/aws_bootcamp:latest
+docker.io/oriade/aws_bootcamp:latest
+[root@ip-100-11-xx-000 ~]$ sudo docker images
+REPOSITORY            TAG       IMAGE ID       CREATED        SIZE
+oriade/aws_bootcamp   latest    c9f24eaddb07   13 hours ago   1.15GB
+alpine                latest    b2aa39c304c2   12 days ago    7.05MB
+```
+
+- I ran the container and was able to load the CRUDDUR homepage.
+
+- Then I stopped and terminated my provisioned EC2 instance.
+
+
+
 
 
 
