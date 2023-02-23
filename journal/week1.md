@@ -19,7 +19,9 @@ Why is container important / why are we containerizing our applicatons
     - we can pull images and you can push images 
     - Free to use
     - Some things to note
+    
         **need to check out Open Conatiner initiative**
+        
         **need to check out jfrog**
 
 
