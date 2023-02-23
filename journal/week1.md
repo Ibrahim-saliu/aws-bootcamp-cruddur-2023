@@ -13,14 +13,14 @@ Why is container important / why are we containerizing our applicatons
 
 
 #### Some container registry example
-** linux server.io --- must checkout ** 
+**linux server.io --- must checkout** 
 
 - Docker hub is a regisrty for docker to host container images
     - we can pull images and you can push images 
     - Free to use
     - Some things to note
-        ** need to check out Open Conatiner initiative **
-        ** need to check out jfrog **
+        **need to check out Open Conatiner initiative**
+        **need to check out jfrog**
 
 
 ## Insructions
