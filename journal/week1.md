@@ -574,6 +574,56 @@ alpine                latest    b2aa39c304c2   12 days ago    7.05MB
 
 
 #### Implement a healthcheck in the V3 Docker compose file
+- Using the documentation on [https://docs.docker.com/compose/compose-file/compose-file-v3/](https://docs.docker.com/compose/compose-file/compose-file-v3/), I was able to understand the need and importance of a health check and how to configure it.
+
+- I added the following to the compose.yml file for the frontend and backend
+
+```yml
+healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost"]
+  interval: 1m30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+    
+```
+
+- I did a compose up and saw my containers running but the backend-flask was unhelathy
+
+![]()
+
+- I ran a `docker inspect` on the container and saw the following in the output:
+
+```json
+    "Health": {
+            "Status": "unhealthy",
+            "FailingStreak": 20,
+            "Log": [
+                {
+                    "Start": "2023-02-23T17:28:24.097833543Z",
+                    "End": "2023-02-23T17:28:24.184112108Z",
+                    "ExitCode": -1,
+                    "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"curl\": executable file not found in $PATH: unknown"
+                },
+                {
+                    "Start": "2023-02-23T17:28:54.188341589Z",
+                    "End": "2023-02-23T17:28:54.253571596Z",
+                    "ExitCode": -1,
+                    "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"curl\": executable file not found in $PATH: unknown"
+                },
+                {
+                    "Start": "2023-02-23T17:29:24.257602047Z",
+                    "End": "2023-02-23T17:29:24.365263601Z",
+                    "ExitCode": -1,
+                    "Output": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"curl\": executable file not found in $PATH: unknown"
+                },
+```
+
+- After a bit of googling, I realized that `curl` is not installed in the image I am using. 
+
+-So I added `RUN apt-get update && apt-get install -y curl` to my backend-flask Dockerfile.
+
+- Did a new docker compose
 
 
 
