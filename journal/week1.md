@@ -372,4 +372,53 @@ Now, that we are sure that our `env_vars` are missing, we can set it using
 
 
 
+### STRETCH ASSIGNMENTS
+
+#### Run the dockerfile CMD as an external script
+- With little bash scripting knowledge, I googled some examples and was able to create a bash script named `docker_bash.sh` which I used to create and run containers
+
+### Push and tag an image to DockerHub
+- First I tagged the image using the command below 
+```sh
+    docker tag frontend-react-js:latest oriade/aws_bootcamp:latest
+```
+- Logged into DockerHub
+- Created a new Repo
+
+![]()
+- connected to my repo via gitpod using the docker exetnsion. I provided my dockerHub user id and an access key generated from my account.
+- The connection could have also been done using `docker login -U oriade` at the terminal.
+
+- Then I pushed my image on the terminal using `docker image push` and I could see my pused image in the docker extension panel.
+
+![]()
+
+![]()
+
+
+### Install Docker on your localmachine and get the same containers running
+
+- I had already installed docker on my machine 
+- I made a clone of my github repo to have the correct documents
+```sh
+    git clone https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023.git
+```
+- i did a list of existing images on my local machine 
+
+![]()
+- Then I buit my images
+
+![]()
+- I did a new image listing 
+
+![]()
+- I ran my containers from the built images passing the env variables
+
+![]()
+
+
+
+
+
+
 
