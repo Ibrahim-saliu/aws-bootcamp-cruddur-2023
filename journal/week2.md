@@ -1,1 +1,108 @@
-# Week 2 — Distributed Tracing
+# Week 2 — Distributed Tracing by Jessica Kerr (Jessitron)
+
+## Jotted Notes 
+Observability -- 
+    Give softeare instructions to tell us what is going on with our services
+    
+Distributed tracing 
+- Keeping track of requests and their traces (story) as it connects to other services or systems
+- Span is a part of trace that represet a sinle unit of work that was done as part of a requests
+- Traces tells you what happen and when they happens and the dependencies
+- Service maps can be used to really show the interraction between services mostly on an enterprise level
+- Instrumentation is the code that sends the data that makes trace
+    
+
+We are gonna add Distributed Tracing to our backend application
+
+
+### Instructions from Live Stream
+- From your github repo, launch gitpod
+
+- Log into your [ui.honeycomb.io](ui.honeycomb.io) account
+
+- Create a new environment 
+    - Observe the **API Keys** : they determine what environment the the incoming data ends up in. (Keep them safe - breach could rresult in a flooding of your environment with irrelevant data that could make tracing more efficient).
+    
+    - export your API key and set it as a variable in gitpod so that it is loaded everytime you log into gitpod
+    
+```sh
+            export HONEYCOMB_API_KEY="jhddedvc887blahblah"
+            gp env HONEYCOMB_API_KEY="jhddedvc887blahblah"
+            
+            # Note: Your whole project should use the same API key
+```
+    
+    
+
+```sh
+            # export and set the service name as well
+            # export HONEYCOMB_SERVICE_NAME="Cruddur"
+            # gp env HONEYCOMB_SERVICE_NAME="Cruddur"
+            
+            #Note: a good practice if we have multiple services is to hardcode our `HONEYCOMB_SERVICE_NAME` in dockercompse file as we do not want the service name to be consistent accross multiple services. 
+```
+    
+- so we add `OTEL_SERVICE_NAME: "backend-flask"` to our `compose.yml`
+    `OTEL` is short for **open telemetry** [https://opentelemetry.io/](https://opentelemetry.io/)
+- we also add `OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"` and `OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-teams=${HONEYCOMB_API_KEY}"`
+
+- We need to add the following requirements from [ui.honeycomb.io](ui.honeycomb.io) under `Python` to our `requirements.txt`
+
+- we execute the installation of our equirements in our `requirements.txt`
+```sh
+        pip install -r requirements.txt
+```
+
+- Add the following to your `app.py`
+```python
+    from opentelemetry import trace
+    from opentelemetry.instrumentation.flask import FlaskInstrumentor
+    from opentelemetry.instrumentation.requests import RequestsInstrumentor
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor
+```
+
+- we also need to add the following to our `app.py`. 
+    
+```python
+    # HoneyComb initializaion
+    provider = TracerProvider()
+    processor = BatchSpanProcessor(OTLPSpanExporter())
+    provider.add_span_processor(processor)
+    trace.set_tracer_provider(provider)
+    tracer = trace.get_tracer(__name__)
+
+
+    app = Flask(__name__)
+
+    # HoneyComb initializaion
+    # Initialize automatic instrumentation with Flask
+    FlaskInstrumentor().instrument_app(app)
+    RequestsInstrumentor().instrument()
+```
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
