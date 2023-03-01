@@ -83,15 +83,55 @@ We are gonna add Distributed Tracing to our backend application
 ```
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+- we can now bring our application up using `docker compose up`
+
+- We can see that data being created in our home and datasets section of hneycomb environment 
+
+![]()
+
+
+**Check out Glitch**
+
+- Now, we are gonna create a span around our `home_activities.py`. Wea re gonna start by acquiring a tracer by adding the following to our code:
+
+```python
+        # we add this to our home_activities.py
+        from opentelemetry import trace
+
+        tracer = trace.get_tracer("tracer.name.here")
+
+```
+- Then, we will create our span by adding the following to our code:
+
+```python
+        # this will be inside of our def run () function
+        with tracer.start_as_current_span("home-activities-mock-data"):
+```
+
+- we can now refresh our backend page on port 4567 and see data in our honeycomb environment with 2 spans.
+
+![]()
+
+- Now, we can add attributes to our span, we will add the following to our `home_activities.py` code - see image 
+
+```python
+        span = trace.get_current_span()
+        span.set_attribute("app.now", now.isoformat())     
+
+        span.set_attribute("app.result_length", len(results))
+```
+![]()
+
+
+- we could now run a query in our honeycomb console by choosing `New-Query` and making `VISUALIZE=COUNT` and `GROUP BY=trace.trace_id`. We also will indicate that we only want data for the last 10 minutes and the hit Run Query.
+
+![]()
+
+- We can also click on any of the data point on our trace to view the trace. Observe that we can see our app.py span attribute in the span we created.
+
+![]()
+
+
     
     
     
