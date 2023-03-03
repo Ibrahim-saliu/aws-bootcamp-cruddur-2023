@@ -132,10 +132,104 @@ We are gonna add Distributed Tracing to our backend application
 ![]()
 
 
-    
-    
-    
-    
+
+## CLOUD SECURITY VIDEO - Observability vs Monitoring
+- Logging helps identify events in your workload
+- Observability Pillars : Metrics, Traces, Logs
+- Instrumentation : helps you create logs, metrics and traces e.g OTEL, AWS X-ray, AWS Cloudwatch agent
+
+
+## XRAY instrumentation
+- This is one of AWS instrumentation for observability. 
+- An X-ray Daemon is need for X-ray API to work 
+- We will need to install the `aws-xray-sdk`. More information can be found here [https://github.com/aws/aws-xray-sdk-python](https://github.com/aws/aws-xray-sdk-python)
+- We will install the sdk by add it it to our `requirements.txt`
+
+```sh
+    pip install -r requirements.txt 
+```
+
+- The add the following middle ware code to our `app.py`
+
+```python
+    from aws_xray_sdk.core import xray_recorder
+    from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
+    xray_url = os.getenv("AWS_XRAY_URL")
+    xray_recorder.configure(service='Cruddur', dynamic_naming=xray_url)
+    XRayMiddleware(app, xray_recorder)
+```
+
+- We will create a new `xray.json` file
+```json
+    {
+  "SamplingRule": {
+      "RuleName": "Cruddur",
+      "ResourceARN": "*",
+      "Priority": 9000,
+      "FixedRate": 0.1,
+      "ReservoirSize": 5,
+      "ServiceName": "Cruddur",
+      "ServiceType": "*",
+      "Host": "*",
+      "HTTPMethod": "*",
+      "URLPath": "*",
+      "Version": 1
+  }
+}
+```
+
+- Next, we create a group 
+```sh
+    aws xray create-group \
+   --group-name "Cruddur" \
+   --filter-expression "service(\"backend-flask\")"
+```
+We can now see our created xray group in the aws console. **Note - the new Xray UI in the console might be tricky and takes you to cloudwatch, so you want to ensure that you are still in the old UI to be able to view the logs**. WE CAN REACH THERE BY POINTING OUR BROWSER TO [https://us-east-1.console.aws.amazon.com/xray/home?region=us-east-1#/service-map](https://us-east-1.console.aws.amazon.com/xray/home?region=us-east-1#/service-map)
+
+![]()
+
+- Next we will create a sampling rule : This determines how much information we want to see. We can create the sampling rule by executing:
+```sh
+    aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
+```
+- We can now see our rule
+
+![]()
+
+
+- next we add the installation of the xray daemon in our docer compose file
+```yml
+    xray-daemon:
+      image: "amazon/aws-xray-daemon"
+      environment:
+        AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+        AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+        AWS_REGION: "us-east-1"
+      command:
+        - "xray -o -b xray-daemon:2000"
+      ports:
+        - 2000:2000/udp
+
+```
+- we need to add the following `env_vars` to our backend in our docker compose file
+
+```sh
+    AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
+      AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
+```
+
+- we can spin upour application and we can check the logs of each of the container. Looking at the xray daemon container logs, we can see the following:
+
+![]()
+
+- we can now check or our data in the traces segment of the Xray xonsole of aws
+
+![]()
+
+
+
+
     
     
     
