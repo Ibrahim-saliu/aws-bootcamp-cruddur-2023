@@ -37,6 +37,8 @@ import os
 import rollbar
 import rollbar.contrib.flask
 from flask import got_request_exception
+import logging
+from flask import session
 
 # Configuring Logger to Use CloudWatch
 # LOGGER = logging.getLogger(__name__)
@@ -90,6 +92,25 @@ def init_rollbar():
     # send exceptions from `app` to rollbar, using flask's signal system.
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
+# Add Rollbar Person Tracking
+class SimpleRequestWithPerson(object):
+    def __init__(self, person_dict):
+        self.rollbar_person = person_dict
+    def __str__(self):
+        return str(self.rollbar_person)
+
+old_factory = logging.getLogRecordFactory()
+
+def record_factory(*args, **kwargs):
+    record = old_factory(*args, **kwargs)
+    record.request = SimpleRequestWithPerson({'email': 'ibrahimsaliu297@gmail.com'})
+    return record
+
+logging.basicConfig(format="%(request)s - %(message)s")
+logging.setLogRecordFactory(record_factory)
+log = logging.getLogger()
+log.warning('Checking if logging works')
+
 # Xray
 # XRayMiddleware(app, xray_recorder)
 
@@ -115,6 +136,13 @@ cors = CORS(
 def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!"
+
+@app.route('/login')
+def login():
+    # login logic here
+    session['email'] = 'ibrahimsaliu297@gmail.com'  
+    rollbar.set_person(session['email'])
+    return 'Logged in!'
 
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
