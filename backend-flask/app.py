@@ -103,7 +103,7 @@ old_factory = logging.getLogRecordFactory()
 
 def record_factory(*args, **kwargs):
     record = old_factory(*args, **kwargs)
-    record.request = SimpleRequestWithPerson({'email': 'ibrahimsaliu297@gmail.com'})
+    record.request = SimpleRequestWithPerson({'id': '007', 'username': 'james_bond', 'email': 'ibrahimsaliu297@gmail.com.com'})
     return record
 
 logging.basicConfig(format="%(request)s - %(message)s")
@@ -136,13 +136,6 @@ cors = CORS(
 def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!"
-
-@app.route('/login')
-def login():
-    # login logic here
-    session['email'] = 'ibrahimsaliu297@gmail.com'  
-    rollbar.set_person(session['email'])
-    return 'Logged in!'
 
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
