@@ -216,7 +216,7 @@ We can now see our created xray group in the aws console. **Note - the new Xray 
 
 ```sh
     AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
-      AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
+    AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
 ```
 
 - we can spin upour application and we can check the logs of each of the container. Looking at the xray daemon container logs, we can see the following:
@@ -227,6 +227,47 @@ We can now see our created xray group in the aws console. **Note - the new Xray 
 
 ![]()
 
+
+
+
+## Instrumenting Cloud watch Logs
+- Watchtower is a log handler for AWS cloudwatchlogs [https://pypi.org/project/watchtower/](https://pypi.org/project/watchtower/)
+
+- Following the instructions in the watchtower documentation, we need to install the watchtower in our `requirements.txt` file located in our backend-flask project.
+
+- Then we need to add the following to our `app.py` to configure logger using cloudwatch.
+
+```python
+    
+# Configuring Logger to Use CloudWatch
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+console_handler = logging.StreamHandler()
+cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
+LOGGER.addHandler(console_handler)
+LOGGER.addHandler(cw_handler)
+LOGGER.info("some message")
+@app.after_request
+def after_request(response):
+    timestamp = strftime('[%Y-%b-%d %H:%M]')
+    LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+    return response  
+```
+- Further, we need to set some variables in our `docker-compose.yml` file and start our containers
+
+```sh
+    AWS_DEFAULT_REGION: "${AWS_DEFAULT_REGION}"
+    AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+    AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+```
+- When we go to our cloudwatch we can see our logs in the log groups
+
+![]()
+
+- To minimize spend, we will disable this in our `app.py`.
+
+
+## Instrumenting Rollbar
 
 
 
