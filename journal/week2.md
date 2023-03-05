@@ -269,12 +269,70 @@ def after_request(response):
 
 ## Instrumenting Rollbar
 
+- In our `requirments.txt` file, we ned to install `roolbar` and `blinker` and install it using `pip insall -r requirements.txt`
+
+- Next, we will need to set our access toke, this can be found on your rollbar for the flask SDK implementation you have chosen. 
+
+```sh
+    export ROLLBAR_ACCESS_TOKEN="8thisisnotrightye7gsd7h1c8efa34fab"
+    gp env ROLLBAR_ACCESS_TOKEN="8thisisnotrightye7gsd7h1c8efa34fab"
+```
+- in our `app.py`, we nned to import rollbar
+```python
+    import os
+    import rollbar
+    import rollbar.contrib.flask
+    from flask import got_request_exception
+```
+
+- Next we initialize rollbaras shown below in our `app.py`
+
+```python
+rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+@app.before_first_request
+def init_rollbar():
+    """init rollbar module"""
+    rollbar.init(
+        # access token
+        rollbar_access_token,
+        # environment name
+        'production',
+        # server root directory, makes tracebacks prettier
+        root=os.path.dirname(os.path.realpath(__file__)),
+        # flask already sets up logging
+        allow_logging_basic_config=False)
+
+    # send exceptions from `app` to rollbar, using flask's signal system.
+    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+```
+```python
+   @app.route('/rollbar/test')
+def rollbar_test():
+    rollbar.report_message('Hello World!', 'warning')
+    return "Hello World!" 
+```
+
+- Now, we can bring our container up and se if we can hit our `rollbar/test` endpoint
+
+![]()
+
+- Ensure that we have added our `ROLLBAR_ACCESS_TOKEN` docker compose as we might run into some error 
+
+- No, after refreshing a couple of times, if we go to our Rollbar item, we can see items in our dashboard.
+
+![]()
 
 
-    
-    
-    
-    
+![]()
+
+
+### Configure Rollbar to track affected user's information in case of error
+
+- [https://docs.rollbar.com/docs/person-tracking](https://docs.rollbar.com/docs/person-tracking)
+
+
+
+
     
     
     
