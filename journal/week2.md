@@ -229,6 +229,15 @@ We can now see our created xray group in the aws console. **Note - the new Xray 
 
 
 
+### Xray Subsegment Implementation
+- The issue was that we were not able to generate traces sent to our our xray for the useractivities even though it seems to be working for our home activities.
+
+- we used `xray_recorder.capture ('activities_show')` in our `app.py`
+- we also closed the opened subsegment using `xray_recorder.end_segment` in our `user_activities.py`
+- Finally, we were able to see the trace of our `mock_data` subsegment in the xray console.
+
+
+
 
 ## Instrumenting Cloud watch Logs
 - Watchtower is a log handler for AWS cloudwatchlogs [https://pypi.org/project/watchtower/](https://pypi.org/project/watchtower/)
@@ -306,7 +315,7 @@ def init_rollbar():
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 ```
 ```python
-   @app.route('/rollbar/test')
+@app.route('/rollbar/test')
 def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!" 
