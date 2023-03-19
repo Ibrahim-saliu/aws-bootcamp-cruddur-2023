@@ -1,5 +1,22 @@
 # Week 3 — Decentralized Authentication -- Andrew Brown
 
+
+### Security considerations - Ashish
+- Some common authentication methods
+    - Traditional (username/passwprd)
+    - OpenID Connect - using your exising social credentials (google, facebook, LinkedIn)
+    - SAML/Single Sign On and IDP - using one credential for authenticating your apps
+    
+- Oauth: authorization
+
+- Decentralized Authentication: Storing credentials at one location
+
+- Amazon Cognito - allows authentication with credentils its store locally in your amazon account
+
+
+
+
+
 - From your repo in Github, Launch Gitpod
 - Log into your `aws console` using your IAM account - Refrain from using your root user for stuffs.
 
@@ -260,6 +277,21 @@ Amplify.configure({
   }
 ```
 
+
+### Implementing Cognito JWT Server Side Verification
+- The goal is to implement verification to secure our API endpoints on the backend. So First, we need to pass the header in our `HomeFeedPage.js`
+```js
+     headers: {
+    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+  }
+```
+- Then we go to our backend folder and locate our `app.py`, we need to add the following
+
+```python
+    print(
+    request.headers.get('Authorization')
+)
+```
 
 
 
