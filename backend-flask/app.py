@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 import os
 import sys
 
+
 from services.home_activities import *
 from services.notifications_activities import *
 from services.user_activities import *
@@ -14,6 +15,8 @@ from services.message_groups import *
 from services.messages import *
 from services.create_message import *
 from services.show_activity import *
+
+from lib.cognito_jwt_token import CognitoJwtToken, extract_access_token, TokenVerifyError
 
 # HoneyComb observability
 from opentelemetry import trace
@@ -68,6 +71,13 @@ tracer = trace.get_tracer(__name__)
 app = Flask(__name__)
 
 
+# Cognito 
+cognito_jwt_token = CognitoJwtToken(
+  user_pool_id=os.getenv('AWS_COGNITO_USER_POOL_ID'), 
+  user_pool_client_id=os.getenv('AWS_COGNITO_USER_POOL_CLIENT_ID'), 
+  region=os.getenv('AWS_DEFAULT_REGION')
+  )
+
 # HoneyComb initializaion
 # Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
@@ -102,7 +112,7 @@ old_factory = logging.getLogRecordFactory()
 
 def record_factory(*args, **kwargs):
     record = old_factory(*args, **kwargs)
-    record.request = SimpleRequestWithPerson({'id': '007', 'username': 'james_bond', 'email': 'ibrahimsaliu297@gmail.com.com'})
+    record.request = SimpleRequestWithPerson({'id': '007', 'username': 'ibrahim', 'email': 'ibrahimsaliu297@gmail.com.com'})
     return record
 
 logging.basicConfig(format="%(request)s - %(message)s")
@@ -174,12 +184,22 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 @xray_recorder.capture('activities_home')
 def data_home():
-  app.logger.debug("AUTH HEADER")
-  app.logger.debug(
-    request.headers.get('Authorization')
-  )
-  data = HomeActivities.run()
-  return data, 200
+    app.logger.debug(request.headers)
+    access_token = extract_access_token(request.headers)
+    try:
+        claims = cognito_jwt_token.verify(access_token)
+        # authenticatted request
+        app.logger.debug("authenticated")
+        app.logger.debug(claims)
+        app.logger.debug(claims["username"])
+        data = HomeActivities.run(cognito_user_id=claims["username"])
+    except TokenVerifyError as e:
+      #uauthenticated
+      app.logger.debug("unathenticated") 
+      data = HomeActivities.run()
+     # also available through g.cognito_claims
+
+    return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
