@@ -25,19 +25,21 @@
 **Beware, there shall be a bit of coding**
 
 - Creata a new user pool in aws cognito console
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%201.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%201.png)
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%202.1.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%202.1.png)
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%202.2.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%202.2.png)
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%203.1.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%203.1.png)
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%203.2.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%203.2.png)
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%204.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%204.png)
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%205.1.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%205.1.png)
+
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%205.2.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%205.2.png)
 
 
 - to use the cognito library, we will use the aws amplify library for cognito [https://aws.amazon.com/amplify/?trk=66d9071f-eec2-471d-9fc0-c374dbda114d&sc_channel=ps&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify&ef_id=Cj0KCQjwwtWgBhDhARIsAEMcxeAjuRaFLnlLXZVBxxCHiZTlNHT9GXvTQVtEM_WRr3RzDTZpLOWG2ZgaAhioEALw_wcB:G:s&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify](https://aws.amazon.com/amplify/?trk=66d9071f-eec2-471d-9fc0-c374dbda114d&sc_channel=ps&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify&ef_id=Cj0KCQjwwtWgBhDhARIsAEMcxeAjuRaFLnlLXZVBxxCHiZTlNHT9GXvTQVtEM_WRr3RzDTZpLOWG2ZgaAhioEALw_wcB:G:s&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify)
@@ -147,15 +149,15 @@ Amplify.configure({
   
 ```
 
-- Next, we need to creata user in our user pool
+- Next, we need to creat a user in our user pool
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user.png)
 
 - We can see the confirmation status of our user is `Force change password`
 
-- When we try to log in with the unconfrimed user, we get an error as shown below `Cannot read properties of null (reading 'accessToken')`
+- When we try to log in with the unconfirmed user, we get an error as shown below `Cannot read properties of null (reading 'accessToken')`
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/signin%20error.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/signin%20error.png)
 
 - Next, we will try to use `aws_cli` to confrim the user
 
@@ -164,11 +166,11 @@ Amplify.configure({
 ```
 - Nowe, we should be able to sign into our Cruddur app with our username
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/signin%20with%20user.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/signin%20with%20user.png)
 
 - In our aws console, we can add attributes to our user to reflect in our app once we sign it as shown below 
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/user%20showing%20handle%20in%20signin.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/user%20showing%20handle%20in%20signin.png)
 
 
 - Next, we implement our Signup page. To do that, lets delete our already excisting or created user inside our userpool.
@@ -238,13 +240,13 @@ Amplify.configure({
 ```
 - Next, we try to sign up now confirm our email using the confirmation code sent to our email.
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/signup%20page.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/signup%20page.png)
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/confrim%20email%20page.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/confrim%20email%20page.png)
 
 - We can see in the console that our user is confirmed and verified
 
-![]()
+![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/user%20verified%20and%20confirmed.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/user%20verified%20and%20confirmed.png)
 
 - We can now sign in with your user and password 
 
