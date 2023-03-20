@@ -42,7 +42,9 @@
 ![https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%205.2.png](https://github.com/Ibrahim-saliu/aws-bootcamp-cruddur-2023/blob/main/my_resources/Week3/creating%20user%20pool%20page%205.2.png)
 
 
-- to use the cognito library, we will use the aws amplify library for cognito [https://aws.amazon.com/amplify/?trk=66d9071f-eec2-471d-9fc0-c374dbda114d&sc_channel=ps&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify&ef_id=Cj0KCQjwwtWgBhDhARIsAEMcxeAjuRaFLnlLXZVBxxCHiZTlNHT9GXvTQVtEM_WRr3RzDTZpLOWG2ZgaAhioEALw_wcB:G:s&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify](https://aws.amazon.com/amplify/?trk=66d9071f-eec2-471d-9fc0-c374dbda114d&sc_channel=ps&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify&ef_id=Cj0KCQjwwtWgBhDhARIsAEMcxeAjuRaFLnlLXZVBxxCHiZTlNHT9GXvTQVtEM_WRr3RzDTZpLOWG2ZgaAhioEALw_wcB:G:s&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify)
+- to use the cognito library, we will use the aws amplify library for cognito 
+
+[https://aws.amazon.com/amplify/?trk=66d9071f-eec2-471d-9fc0-c374dbda114d&sc_channel=ps&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify&ef_id=Cj0KCQjwwtWgBhDhARIsAEMcxeAjuRaFLnlLXZVBxxCHiZTlNHT9GXvTQVtEM_WRr3RzDTZpLOWG2ZgaAhioEALw_wcB:G:s&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify](https://aws.amazon.com/amplify/?trk=66d9071f-eec2-471d-9fc0-c374dbda114d&sc_channel=ps&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify&ef_id=Cj0KCQjwwtWgBhDhARIsAEMcxeAjuRaFLnlLXZVBxxCHiZTlNHT9GXvTQVtEM_WRr3RzDTZpLOWG2ZgaAhioEALw_wcB:G:s&s_kwcid=AL!4422!3!646025317188!e!!g!!aws%20amplify)
 
 [https://docs.amplify.aws/lib/auth/getting-started/q/platform/js/](https://docs.amplify.aws/lib/auth/getting-started/q/platform/js/)
 
