@@ -1,0 +1,5 @@
+#! /usr/bin/bash
+
+echo "connecting to db"
+
+psql $CONNECTION_URL
