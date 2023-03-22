@@ -228,7 +228,7 @@ psql $CONNECTION_URL
 
 CYAN='\033[1;36m'
 NO_COLOR='\033[0m'
-LABEL="db-schema-load"
+LABEL="db-seed"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
 seed_path=$(realpath .)/db/seed.sql
@@ -245,7 +245,7 @@ fi
 psql $CON_URL cruddur < $seed_path
 ```
 
-- Create a `/db/seed.sql` file and add the following 
+- Create a `/db/seed.sql` file and add the following to insert data into our created tables
 ```sql
 -- this file was manually created
 INSERT INTO public.users (display_name, handle, cognito_user_id)
@@ -268,6 +268,88 @@ VALUES
 ![INSERT TABLE]()
 
 
+- With `\x on` executed to enable Expanded display, we can describe our tables 
+```sql
+select * from activities;
+```
+
+![DESCRIBE TABLE]()
+
+![DESCRIBE TABLE 2]()
 
 
+- Next, to know the active connections/sessions to our db, we will create a newscript `bin/db-sessions`
+```sh
+#! /usr/bin/bash
 
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-sessions"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+if [ "$1" = "prod" ]; then
+  echo "Running in PROD mode with PROD key"
+  URL=$PROD_CONNECTION_URL
+else
+  URL=$CONNECTION_URL
+fi
+
+NO_DB_URL=$(sed 's/\/cruddur//g' <<<"$URL")
+psql $NO_DB_URL -c "select pid as process_id, \
+       usename as user,  \
+       datname as db, \
+       client_addr, \
+       application_name as app,\
+       state \
+from pg_stat_activity;"
+```
+
+![ACTIVE CONNECTIONS]()
+
+- We can automate our interaction and setup with the db by creating a `db-setup` script with the following content 
+```sh 
+#! /usr/bin/bash
+
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-setup"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+bin_path=$(realpath .)/bin
+
+source "$bin_path/db-drop"
+source "$bin_path/db-create"
+source "$bin_path/db-schema-load"
+source "$bin_path/db-seed"
+```
+
+![DB SETUP]()
+
+- Next, we will install the driver for our PostgreSQL , we need to add `psycopg[binary]` and `psycopg[pool]` to our `requirements.txt`
+[https://www.psycopg.org/psycopg3/docs/basic/install.html](https://www.psycopg.org/psycopg3/docs/basic/install.html)
+
+- We create a new file `db.py` in our `backend-flask/lib` folder
+```python
+from psycopg_pool import ConnectionPool
+import os
+
+connection_url = os.getenv("CONNECTION_URL")
+pool = ConnectionPool(connection_url)
+
+def query_wrap_object(template):
+  sql = '''
+  (SELECT COALESCE(row_to_json(object_row),'{}'::json) FROM (
+  {template}
+  ) object_row);
+  '''
+
+def query_wrap_array(template):
+  sql = '''
+  (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
+  {template}
+  ) array_row);
+  '''
+
+```
+- We need to add `CONNECTION_URL` in our `docker compose.yml` file
