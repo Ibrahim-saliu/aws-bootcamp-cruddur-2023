@@ -334,22 +334,103 @@ source "$bin_path/db-seed"
 from psycopg_pool import ConnectionPool
 import os
 
-connection_url = os.getenv("CONNECTION_URL")
-pool = ConnectionPool(connection_url)
 
 def query_wrap_object(template):
-  sql = '''
-  (SELECT COALESCE(row_to_json(object_row),'{}'::json) FROM (
+  sql = f"""
+  (SELECT COALESCE(row_to_json(object_row),'{{}}'::json) FROM (
   {template}
   ) object_row);
-  '''
+  """
+  return sql
 
 def query_wrap_array(template):
-  sql = '''
+  sql = f"""
   (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
   {template}
   ) array_row);
-  '''
+  """
+  return sql
+
+connection_url = os.getenv("CONNECTION_URL")
+pool = ConnectionPool(connection_url)
+
 
 ```
 - We need to add `CONNECTION_URL` in our `docker compose.yml` file
+
+- `home_activities.py` should be updated as follows :
+
+```python
+from datetime import datetime, timedelta, timezone
+from opentelemetry import trace
+import logging
+
+from lib.db import pool, query_wrap_array
+
+tracer = trace.get_tracer("home_activities")
+
+
+class HomeActivities:
+  def run(cognito_user_id=None):
+    #logger.info("HomeActivities")
+    with tracer.start_as_current_span("home-activities-mock-data"):
+      span = trace.get_current_span()
+      now = datetime.now(timezone.utc).astimezone()
+      span.set_attribute("app.now", now.isoformat())
+   
+      sql = query_wrap_array("""
+        SELECT
+          activities.uuid,
+          users.display_name,
+          users.handle,
+          activities.message,
+          activities.replies_count,
+          activities.reposts_count,
+          activities.likes_count,
+          activities.reply_to_activity_uuid,
+          activities.expires_at,
+          activities.created_at
+        FROM public.activities
+        LEFT JOIN public.users ON users.uuid = activities.user_uuid
+        ORDER BY activities.created_at DESC
+      """)
+      print("SQL-----------------")
+      print(sql)
+      print("SQL-----------------")
+      with pool.connection() as conn:
+        with conn.cursor() as cur:
+          cur.execute(sql)
+                # this will return a tuple
+                # the first field being the data
+          json = cur.fetchone()
+      print("FFFFFFFFFFFFXXXXXXXX")
+      print("XXXXXXXXXXXX")
+      print(json[0])
+      return json[0]
+```
+
+
+- NEXT, we can try to connect to our RDS in aws,  using the `psql PROD_CONNECTION_URL`. its normal to run into an error as we need to update security group's inbound traffic rule. We will add allow traffic for our gitpod IP . we can user `curl  ifconfig.me` to get the IP address
+After updating the security rule, we can connect 
+
+![PROD_CONNECTION]()
+
+
+![PROD_CONNECT_TABLE]()
+
+- There is a limitation in the sense that everytime, we launch our gitpod environment, the IP will change, so we can fix that by using the script below to update our security groups accordingly
+```sh
+export DB_SG_ID="sg-0678454548524"
+gp env DB_SG_ID="sg-0678454548524"
+export DB_SG_RULE_ID="sgr-gefyehged673763fe"
+gp env DB_SG_RULE_ID="sgr-gefyehged673763fe"
+#DB_SG_ID = security group ID
+#DB_SG_RULE_ID = security group rule ID
+
+
+aws ec2 modify-security-group-rules \
+    --group-id $DB_SG_ID \
+    --security-group-rules "SecurityGroupRuleId=$DB_SG_RULE_ID,SecurityGroupRule={Description=GITPOD,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
+```
+
+
