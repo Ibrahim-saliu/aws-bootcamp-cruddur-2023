@@ -433,4 +433,73 @@ aws ec2 modify-security-group-rules \
     --security-group-rules "SecurityGroupRuleId=$DB_SG_RULE_ID,SecurityGroupRule={Description=GITPOD,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
 ```
 
+#### COGNITO POST CONFRIMATION LAMBDA
 
+- We need to create a `lambda function` in our AWS console 
+
+![CREATE_LAMBDA]()
+
+
+- Paste teh following code in the created function:
+
+```python
+    import json
+import psycopg2
+
+def lambda_handler(event, context):
+    user = event['request']['userAttributes']
+    print("********* User Attributes**********")
+    print(user)
+    user_display_name   = user["name"]
+    user_email          = user["email"]
+    user_handle         = user["preferred_username"]
+    user_cognito_id     = user["sub"]
+
+    try:
+        conn = psycopg2.connect(os.getenv("CONNECTION_URL"))
+        cur = conn.cursor()
+
+        sql = f"""
+            INSERT INTO users (
+                display_name, 
+                handle,
+                email,
+                cognito_user_id
+                ) 
+            VALUES (
+                {user_display_name}, 
+                {user_email},
+                {user_handle},
+                {user_cognito_id}
+                )"
+        """
+        cur.execute(sql)
+        conn.commit() 
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        
+    finally:
+        if conn is not None:
+            cur.close()
+            conn.close()
+            print('Database connection closed.')
+
+    return event
+            
+```
+- ADD AN `ENV_VAR` for `PROD_CONNECTION_URL`
+
+- Next, we need to add a layer using custom 
+[https://github.com/jetbridge/psycopg2-lambda-layer](https://github.com/jetbridge/psycopg2-lambda-layer)
+
+- We need to add a lambda trigger in cognito
+
+![ADD LAMBDA TRIGGER]
+
+
+- We need to add our function in the same Security group as our RDS and attach a policy that will allow our VPC to be linked with out lambda function.
+
+- We can now sign up, check our logs in cloud watch and log into our PROD DB to see our user data
+
+![USER DATA]()
