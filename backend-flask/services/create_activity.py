@@ -7,6 +7,18 @@ class CreateActivity:
       'data': None
     }
 
+    user_uuid = ""
+
+    sql = f"""
+    INSERT INTO (
+      user_uuid
+    )
+    VALUES (
+      "{user_uuid}",
+      "{message}"
+    )
+    """
+
     now = datetime.now(timezone.utc).astimezone()
 
     if (ttl == '30-days'):
