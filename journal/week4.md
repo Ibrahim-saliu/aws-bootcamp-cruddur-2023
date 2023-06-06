@@ -503,3 +503,7 @@ def lambda_handler(event, context):
 - We can now sign up, check our logs in cloud watch and log into our PROD DB to see our user data
 
 ![USER DATA]()
+
+
+#### Creating Activities 
+
